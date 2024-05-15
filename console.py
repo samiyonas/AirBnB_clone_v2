@@ -127,7 +127,17 @@ class HBNBCommand(cmd.Cmd):
             k = spl[i].split("=")
             if k[1].startswith('"') and k[1].endswith('"'):
                 k[1] = k[1][1:-1]
-            setattr(new_instance, k[0], k[1])
+            if "_" in k[1]:
+                new = []
+                for i in range(len(k[1])):
+                    if k[1][i] == "_":
+                        new.append(" ")
+                    else:
+                        new.append(k[1][i])
+                value = "".join(new)
+                setattr(new_instance, k[0], value)
+            else:
+                setattr(new_instance, k[0], k[1])
         storage.save()
         print(new_instance.id)
         storage.save()
