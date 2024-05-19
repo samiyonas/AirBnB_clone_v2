@@ -59,7 +59,6 @@ class BaseModel:
             del (dct['_sa_instance_state'])
         return dct
 
-
     def delete(self):
         """ delete the current instance from storage """
         from models import storage
