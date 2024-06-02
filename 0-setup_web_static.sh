@@ -28,6 +28,7 @@ ubuntu@89-web-01:~/$ curl localhost/hbnb_static/index.html
 "
 
 sudo chown -R ubuntu:ubuntu /data/
+sudo chown -R ubuntu:ubuntu /data/web_static/
 
 echo "$fake_html" > /data/web_static/releases/test/index.html
 
