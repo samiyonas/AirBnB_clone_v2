@@ -9,6 +9,6 @@ def do_pack():
     local("mkdir -p versions")
     time = datetime.now().strftime("%Y%m%d%H%M")
     arcf = "versions/web_static_{}.tgz".format(time)
-    result = local("tar -cvzf {} web_static".format(arcf), capture=True)
+    local("tar -cvzf {} web_static".format(arcf))
 
     return arcf
