@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ DBStorage for AirBnB clone version 2 """
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session, class_mapper
+from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
 from models.base_model import Base
 from models.user import User
@@ -10,6 +10,7 @@ from models.state import State
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+
 
 class DBStorage:
     """ Database storage class """
@@ -46,15 +47,17 @@ class DBStorage:
         dct = {}
         if cls is None:
             for c in DBStorage.classes.values():
-                objs = self.__session.query(class_mapper(c)).all()
+                objs = self.__session.query(c).all()
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     dct[key] = obj
         else:
-            objs = self.__session.query(class_mapper(cls)).all()
+            objs = self.__session.query(cls).all()
             for obj in objs:
                 key = obj.__class__.__name__ + '.' + obj.id
                 dct[key] = obj
+        if "_sa_instance_state" in dct:
+            del dct["_sa_instance_state"]
         return dct
 
     def new(self, obj):

@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+from os import getenv
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -138,9 +139,13 @@ class HBNBCommand(cmd.Cmd):
                 setattr(new_instance, k[0], value)
             else:
                 setattr(new_instance, k[0], k[1])
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+        if getenv("HBNB_TYPE_STORAGE") == "db":
+            new_instance.save()
+            print(new_instance.id)
+        else:
+            storage.save()
+            print(new_instance.id)
+            storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -217,13 +222,13 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         print_list = []
         if args:
-            #args = args.split(' ')[0]  # remove possible trailing args
+            # args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
             for k, v in storage.all(HBNBCommand.classes[args]).items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+                # if k.split('.')[0] == args:
+                print_list.append(str(v))
         else:
             for k, v in storage.all().items():
                 print_list.append(str(v))
