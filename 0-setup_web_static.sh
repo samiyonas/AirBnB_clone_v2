@@ -28,11 +28,10 @@ ubuntu@89-web-01:~/$ curl localhost/hbnb_static/index.html
 "
 
 sudo chown -R ubuntu:ubuntu /data/
-sudo chown -R ubuntu:ubuntu /data/web_static/
-
 echo "$fake_html" > /data/web_static/releases/test/index.html
 
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo chown -h ubuntu:ubuntu /data/web_static/current
 
 sudo sed -i '51i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
 
