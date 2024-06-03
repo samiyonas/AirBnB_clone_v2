@@ -2,6 +2,7 @@
 """ serving a website using Fabric """
 from datetime import datetime
 from fabric.api import local, env, run, put, sudo
+from fabric.context_managers import cd
 import os
 
 
@@ -58,3 +59,8 @@ def do_clean(number):
         num = 1
     for i in range(len(dellist) - num):
         local("rm versions/{}".format(dellist[i]))
+    with cd("/data/web_static/releases"):
+        remoteout = run("ls | sort").split()
+        remoteout = [a for a in remoteout if "web_static_" in a]
+        for i in range(len(remoteout) - num):
+            run("rm -r /data/web_static/releases/{}".format(remoteout[i]))
