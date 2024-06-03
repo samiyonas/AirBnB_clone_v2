@@ -44,7 +44,6 @@ def do_deploy(archive_path):
 def deploy():
     """ all in one """
     arcf = do_pack()
-    if os.path.exists(arcf) is False:
+    if arcf is None:
         return False
-    ret = do_deploy(arcf)
-    return ret
+    return do_deploy(arcf)
