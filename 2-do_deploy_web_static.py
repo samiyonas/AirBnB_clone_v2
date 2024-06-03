@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ serving a website using Fabric """
 from datetime import datetime
-from fabric.api import local, env, run, put
+from fabric.api import local, env, run, put, sudo
 import os
 
 
@@ -27,13 +27,14 @@ def do_deploy(archive_path):
         run("mkdir -p /tmp/")
         put(archive_path, "/tmp/")
         arch_dir = archive_path.split("/")[1].split(".")[0]
+        hp = "/data/web_static/releases/{}/web_static/*".format(arch_dir)
         ft = archive_path.split("/")[1]
         full_path = "/data/web_static/releases/{}".format(arch_dir)
         run("mkdir -p {}".format(full_path))
         run("tar -xzvf /tmp/{} -C {}".format(ft, full_path))
         run("rm -rf /tmp/{}".format(ft))
-        run("rm -rf /data/web_static/current")
-        run("mkdir -p /data/web_static/current")
+        run("mv {} /data/web_static/releases/{}/".format(hp, arch_dir))
+        run("rm -rf /data/web_static/current/")
         run("ln -s {} /data/web_static/current".format(full_path))
         return True
     except Exception:
