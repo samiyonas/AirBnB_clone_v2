@@ -17,7 +17,7 @@ def states_list():
 
 
 @app.teardown_appcontext
-def clean_up():
+def clean_up(exception):
     """ cleaning up """
     storage.close()
 
